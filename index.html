@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Chrono-Flux Chess</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="app-container">
+    <!-- Left Sidebar: Controls & Tactical Abilities -->
+    <aside class="sidebar left-panel">
+      <div class="brand">
+        <h1>CHRONO<span>CHESS</span></h1>
+        <p class="subtitle">Tactical Edition</p>
+      </div>
+
+      <div class="control-group">
+        <label for="game-mode">Opponent</label>
+        <select id="game-mode">
+          <option value="ai-medium" selected>AI — Tactical (Depth 3)</option>
+          <option value="ai-easy">AI — Casual (Depth 2)</option>
+          <option value="pvp">Local 2-Player (Pass & Play)</option>
+        </select>
+      </div>
+
+      <div class="control-group toggle-row">
+        <div>
+          <span class="toggle-title">Fog of War</span>
+          <small class="toggle-desc">Hide unseen enemy squares</small>
+        </div>
+        <label class="switch">
+          <input type="checkbox" id="fog-toggle" />
+          <span class="slider"></span>
+        </label>
+      </div>
+
+      <div class="control-group toggle-row">
+        <div>
+          <span class="toggle-title">Sound FX</span>
+          <small class="toggle-desc">Synthesized board audio</small>
+        </div>
+        <label class="switch">
+          <input type="checkbox" id="sound-toggle" checked />
+          <span class="slider"></span>
+        </label>
+      </div>
+
+      <div class="abilities-box">
+        <h3>Tactical Abilities <span id="ability-owner-badge">White</span></h3>
+        <p id="ability-hint" class="ability-hint">1 charge per match. Select a power below:</p>
+
+        <button id="btn-shield" class="ability-btn" title="Protect a non-King piece for 1 enemy turn (Free Action)">
+          <span class="ability-icon">🛡️</span>
+          <div class="ability-info">
+            <strong>Aegis Shield</strong>
+            <small>1-turn capture immunity (Free)</small>
+          </div>
+          <span class="charge-badge" id="charge-shield">1</span>
+        </button>
+
+        <button id="btn-swap" class="ability-btn" title="Swap any two of your non-King pieces (Uses Turn)">
+          <span class="ability-icon">🌀</span>
+          <div class="ability-info">
+            <strong>Phase Shift</strong>
+            <small>Swap 2 friendly pieces (Turn)</small>
+          </div>
+          <span class="charge-badge" id="charge-swap">1</span>
+        </button>
+
+        <button id="btn-rewind" class="ability-btn" title="Undo your previous full turn">
+          <span class="ability-icon">⏳</span>
+          <div class="ability-info">
+            <strong>Chrono Rewind</strong>
+            <small>Undo last full turn</small>
+          </div>
+          <span class="charge-badge" id="charge-rewind">1</span>
+        </button>
+      </div>
+
+      <button id="btn-reset" class="primary-btn">New Match</button>
+    </aside>
+
+    <!-- Center: Evaluation Bar & Chessboard -->
+    <main class="board-stage">
+      <div class="status-banner" id="status-banner">White's Turn</div>
+
+      <div class="board-wrapper">
+        <div class="eval-bar-container" title="Position Evaluation">
+          <div class="eval-bar-fill" id="eval-bar-fill"></div>
+          <span class="eval-score" id="eval-score">0.0</span>
+        </div>
+
+        <div id="chessboard" class="chessboard" aria-label="Chessboard"></div>
+      </div>
+    </main>
+
+    <!-- Right Sidebar: Captured Pieces & Move Log -->
+    <aside class="sidebar right-panel">
+      <div class="captured-section">
+        <h3>Captured by White</h3>
+        <div id="captured-by-white" class="captured-tray"></div>
+      </div>
+
+      <div class="captured-section">
+        <h3>Captured by Black</h3>
+        <div id="captured-by-black" class="captured-tray"></div>
+      </div>
+
+      <div class="history-section">
+        <h3>Battle Log</h3>
+        <div id="move-history" class="move-history"></div>
+      </div>
+    </aside>
+  </div>
+
+  <!-- Pawn Promotion Modal -->
+  <div id="promotion-modal" class="modal hidden">
+    <div class="modal-card">
+      <h2>Promote Pawn</h2>
+      <p>Choose your upgraded unit:</p>
+      <div class="promo-choices" id="promo-choices">
+        <button data-piece="q">♕<span>Queen</span></button>
+        <button data-piece="r">♖<span>Rook</span></button>
+        <button data-piece="b">♗<span>Bishop</span></button>
+        <button data-piece="n">♘<span>Knight</span></button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Game Over Modal -->
+  <div id="gameover-modal" class="modal hidden">
+    <div class="modal-card">
+      <h2 id="gameover-title">Checkmate!</h2>
+      <p id="gameover-message">White wins the match.</p>
+      <button id="btn-modal-reset" class="primary-btn">Play Again</button>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
